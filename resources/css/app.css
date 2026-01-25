@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+
+
+@theme {
+  /* Cores semânticas (com fallback) */
+  --color-primary: theme(colors.blue.500, #2563eb);
+  --color-secondary: theme(colors.slate.500, #64748b);
+  --color-success: theme(colors.teal.500, #14b8a6);
+  --color-info: theme(colors.sky.500, #38bdf8);
+  --color-warning: theme(colors.amber.500, #fbbf24);
+  --color-error: theme(colors.red.500, #ef4444);
+}
+
+@layer base {
+  /* Variáveis globais para uso em componentes */
+  :root {
+    --primary: var(--color-primary);
+    --secondary: var(--color-secondary);
+    --success: var(--color-success);
+    --info: var(--color-info);
+    --warning: var(--color-warning);
+    --error: var(--color-error);
+}
+}
+
+@import "./components/button.css";
+@import "./components/input.css";
+@import "./components/card.css";

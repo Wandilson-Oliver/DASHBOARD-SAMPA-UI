@@ -1,0 +1,72 @@
+@layer components {
+  /* =================================================
+   * Base Card
+   * ================================================= */
+  .card {
+    background-color: white;
+    color: #0f172a; /* slate-900 */
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb; /* slate-200 */
+  }
+
+  /* =================================================
+   * Variants
+   * ================================================= */
+
+  /* default */
+  .card-default {
+    background-color: white;
+    border-color: #e5e7eb;
+  }
+
+  /* muted */
+  .card-muted {
+    background-color: #f8fafc; /* slate-50 */
+    border-color: #e2e8f0;     /* slate-200 */
+  }
+
+  /* semantic */
+  .card-primary {
+    border-color: var(--primary);
+    background-color: color-mix(in oklab, var(--primary), white 92%);
+  }
+
+  .card-success {
+    border-color: var(--success);
+    background-color: color-mix(in oklab, var(--success), white 92%);
+  }
+
+  .card-warning {
+    border-color: var(--warning);
+    background-color: color-mix(in oklab, var(--warning), white 92%);
+  }
+
+  .card-error {
+    border-color: var(--error);
+    background-color: color-mix(in oklab, var(--error), white 92%);
+  }
+
+  /* =================================================
+   * Card Sections
+   * ================================================= */
+
+  .card-header {
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .card-description {
+    margin-top: 0.25rem;
+    font-size: 0.875rem; /* text-sm */
+    color: #64748b;      /* slate-500 */
+  }
+
+  .card-body {
+    display: block;
+  }
+}

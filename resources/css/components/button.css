@@ -1,0 +1,86 @@
+@layer components {
+  /* =================================================
+   * Base
+   * ================================================= */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2
+           font-medium rounded-lg
+           transition
+           focus:outline-none focus:ring-2 focus:ring-offset-2
+           disabled:opacity-50 disabled:pointer-events-none
+           cursor-pointer;
+  }
+
+  /* =================================================
+   * Sizes
+   * ================================================= */
+  .btn-sm {
+    @apply px-3 py-1.5 text-sm;
+  }
+
+  .btn-md {
+    @apply px-4 py-2 text-sm;
+  }
+
+  .btn-lg {
+    @apply px-5 py-2.5 text-base;
+  }
+
+  .btn-xl {
+    @apply px-6 py-3 text-lg;
+  }
+
+  /* =================================================
+   * Variants (semantic, via CSS variables)
+   * ================================================= */
+
+  .btn-primary {
+    background-color: var(--primary);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    filter: brightness(0.95);
+  }
+
+  .btn-primary:focus-visible {
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary), transparent 70%);
+  }
+
+  .btn-secondary {
+    background-color: var(--secondary);
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    filter: brightness(0.95);
+  }
+
+  .btn-secondary:focus-visible {
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--secondary), transparent 70%);
+  }
+
+  .btn-success {
+    background-color: var(--success);
+    color: white;
+  }
+
+  .btn-warning {
+    background-color: var(--warning);
+    color: #111827; /* slate-900 */
+  }
+
+  .btn-error {
+    background-color: var(--error);
+    color: white;
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--primary);
+  }
+
+  .btn-ghost:hover {
+    background-color: color-mix(in oklab, var(--primary), transparent 90%);
+  }
+}
