@@ -72,10 +72,19 @@ Após login bem-sucedido:
 
 ---
 
+## 👤 Login
+
+::: columns
+::: column
+![image info](./login.png)
+:::
+::: column
+![image info](./verify.png)
+:::
+:::
+
+
 ## 👤 Perfil do Usuário
-
-
-
 ![image info](./page-profile.png)
 
 ### Edição de Dados Pessoais
