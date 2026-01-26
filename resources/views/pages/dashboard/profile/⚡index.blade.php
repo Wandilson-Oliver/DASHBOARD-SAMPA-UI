@@ -14,6 +14,9 @@ new #[Layout('layouts::app')] class extends Component
     public User $user;
 
     public string $name = '';
+    public string $email = '';
+    public ?string $phone = null;
+
     public $photo;
 
     public ?string $password = null;
@@ -29,6 +32,8 @@ new #[Layout('layouts::app')] class extends Component
     {
         $this->user = auth()->user();
         $this->name = $this->user->name;
+        $this->phone = $this->user->phone;
+        $this->email = $this->user->email;
     }
 
     /* =================================================
@@ -92,11 +97,15 @@ new #[Layout('layouts::app')] class extends Component
         $this->validate([
             'name' => 'required|min:3',
             'photo' => 'nullable|image|max:2048',
+            'phone' => 'nullable|min:10',
+            'email' => 'required|email',
             'password' => 'nullable|min:8|confirmed',
         ]);
 
         $this->user->update([
             'name' => $this->name,
+            'phone' => $this->phone,
+            'email' => $this->email,
         ]);
 
         if ($this->photo) {
@@ -170,13 +179,29 @@ new #[Layout('layouts::app')] class extends Component
             </div>
 
             {{-- DADOS --}}
-            <div class="w-8/12 space-y-6">
+            <div class="w-8/12 space-y-6">  
 
-                {{-- NOME --}}
-                <x-input
-                    wire:model.defer="name"
-                    label="Nome"
-                />
+                <div class="border-b-4 pb-5 border-b-slate-200">
+                    <div>
+                        {{-- NOME --}}
+                        <x-input
+                            wire:model.defer="name"
+                            label="Nome"
+                        />
+
+                        <x-input
+                            wire:model.defer="email"
+                            label="Email"
+                        />
+                    </div>
+
+                    <div class="w-4/12">
+                        <x-phone
+                            wire:model.defer="phone"
+                            label="Whatsapp"
+                        />
+                    </div>
+                </div>
 
                 {{-- SENHA --}}
                 <div class="border border-dashed border-slate-300 rounded-xl p-4">
@@ -184,7 +209,7 @@ new #[Layout('layouts::app')] class extends Component
                     <button
                         type="button"
                         wire:click="$toggle('showPasswordBox')"
-                        class="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                        class="flex items-center gap-2 text-sm font-semibold text-slate-700 cursor-pointer">
                         <i class="bi bi-shield-lock"></i>
                         Alterar senha
                     </button>
@@ -271,7 +296,7 @@ new #[Layout('layouts::app')] class extends Component
 
                 {{-- ACTION --}}
                 <div class="flex justify-end">
-                    <x-button class="btn-primary mt-4" type="submit">
+                    <x-button variant="primary" size="lg" class="mt-4" type="submit">
                         Salvar alterações
                     </x-button>
                 </div>

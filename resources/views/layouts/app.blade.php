@@ -57,7 +57,7 @@
             'lg:ml-72 lg:mr-8': sidebarOpen && !isMobile,
             'lg:ml-20': !sidebarOpen && !isMobile
         }"
-        class="transition-all duration-300 p-4"
+        class="p-4"
     >
         <x-toast/>
         {{ $slot }}
