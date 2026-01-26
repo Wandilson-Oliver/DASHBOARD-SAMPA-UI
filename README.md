@@ -74,14 +74,10 @@ Após login bem-sucedido:
 
 ## 👤 Login
 
-::: columns
-::: column
-![image info](./login.png)
-:::
-::: column
-![image info](./verify.png)
-:::
-:::
+| Login | Verificação |
+|------|-------------|
+| ![Tela de Login](./login.png) | ![Tela de Verificação](./verify.png) |
+
 
 
 ## 👤 Perfil do Usuário
