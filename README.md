@@ -74,7 +74,9 @@ Após login bem-sucedido:
 
 ## 👤 Perfil do Usuário
 
-![Tela de edição de perfil do usuário](page-profile.jpg)
+
+
+![image info](./page-profile.png)
 
 ### Edição de Dados Pessoais
 
