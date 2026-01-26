@@ -74,6 +74,8 @@ Após login bem-sucedido:
 
 ## 👤 Perfil do Usuário
 
+![Tela de edição de perfil do usuário](page-profile.jpg)
+
 ### Edição de Dados Pessoais
 
 O usuário pode editar:
@@ -165,6 +167,7 @@ Indicador visual de força:
 
 ## 📄 Licença
 
-Este projeto é de uso liberado.
+Este projeto é de uso interno/privado.  
+Distribuição ou comercialização depende de autorização do autor.
 
 ---
