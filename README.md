@@ -1,8 +1,6 @@
 # 📊 Sistema de Dashboard
 
-Sistema web moderno, **seguro, responsivo e escalável**, desenvolvido com foco em  
-**autenticação avançada**, **controle de sessões**, **experiência do usuário**  
-e **boas práticas de segurança**.
+Dashboard, escalavel, seguro e responsivo.
 
 ---
 
@@ -13,20 +11,7 @@ e **boas práticas de segurança**.
 - **Alpine.js**
 - **Tailwind CSS 4**
 - **PHP 8.3+**
-- **MySQL / PostgreSQL**
-
----
-
-## 📌 Visão Geral
-
-Dashboard simples na aparência, porém **robusto e poderoso**, projetado para
-**acelerar o desenvolvimento de aplicações web modernas** com alto nível de segurança.
-
-O sistema fornece uma base sólida para projetos que exigem:
-- Autenticação forte
-- Controle de sessões
-- Histórico de acesso
-- Experiência fluida e reativa
+- **MySQL**
 
 ---
 
@@ -63,11 +48,8 @@ o recurso **Remember Me**.
 
 ## 👥 Gestão de Usuários
 
-### 🔁 Recuperação de Senha
+### Redefinição de e-mail por Link
 
-#### Redefinição por Link de E-mail
-
-- Fluxo seguro de redefinição de senha
 - Link enviado para o e-mail cadastrado
 - Token de redefinição:
   - Uso único
@@ -86,36 +68,9 @@ o recurso **Remember Me**.
 
 ---
 
-## 👤 Autenticação (Interface)
-
-| Login | Verificação 2FA |
-|------|----------------|
-| ![Tela de Login](./login.png) | ![Tela de Verificação](./verify.png) |
-
----
-
 ## 👤 Perfil do Usuário
 
 ![Perfil do Usuário](./page-profile.png)
-
-### ✏️ Edição de Dados Pessoais
-
-O usuário pode editar:
-
-- Nome
-- E-mail
-- Telefone / WhatsApp
-- Foto de perfil (opcional)
-- Outras informações básicas
-
----
-
-### 🔐 Gerenciamento de Senha
-
-- Alteração manual de senha
-- **Geração automática de senha segura**
-- Confirmação obrigatória da nova senha
-- Opção de exibir/ocultar senha
 
 ---
 
@@ -149,45 +104,28 @@ Indicador visual de força:
 
 ---
 
-## 📦 Funcionalidades Resumidas
+## 📦 Funcionalidades Principais
 
-| Funcionalidade                                   | Status |
-|------------------------------------------------|--------|
-| Login Seguro                                    | ✅ |
-| Limite de Tentativas de Login                   | ✅ |
-| Remember Me                                     | ✅ |
-| Verificação em Duas Etapas (E-mail)             | ✅ |
-| Recuperação de Senha por E-mail                 | ✅ |
-| Controle de Sessões por Dispositivo             | ✅ |
-| Encerramento Remoto de Sessões                  | ✅ |
-| Dashboard Responsivo                            | ✅ |
-| Edição de Perfil                                | ✅ |
-| Geração Automática de Senha                     | ✅ |
-| Indicador de Força de Senha                     | ✅ |
+| Funcionalidade                                      | Status |
+|---------------------------------------------------|--------|
+| Autenticação Segura com 2FA (E-mail)               | ✅ |
+| Proteção contra Força Bruta (limite de tentativas) | ✅ |
+| Controle de Sessões por Dispositivo                | ✅ |
+| Encerramento Remoto de Sessões                     | ✅ |
+| Detecção de Login em Novo Dispositivo              | ✅ |
+| Dashboard Responsivo e Reativo                     | ✅ |
+| Gerenciamento de Perfil do Usuário                 | ✅ |
+
 
 ---
 
-## 🧱 Arquitetura (Visão Geral)
-
-- Backend baseado em **Laravel**
-- Componentes reativos com **Livewire**
-- Interações leves com **Alpine.js**
-- Estilização moderna com **Tailwind CSS**
-- Separação clara entre:
-  - Autenticação
-  - Autorização
-  - Sessões
-  - Perfil do Usuário
-
----
-
-## 🚀 Possíveis Evoluções Futuras
+## 🚀 Melhorias Futuras
 
 
 - Gestão de permissões e papéis (Roles & Permissions)
 - Notificações via SMS ou WhatsApp
-- Internacionalização (i18n)
-- Monitoramento de login suspeito (IP / dispositivo)
+- Notificações Internas
+- Lista de Ips e Dispositivos permitidos
 
 ---
 

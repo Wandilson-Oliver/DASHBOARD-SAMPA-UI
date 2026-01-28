@@ -38,27 +38,22 @@
         ['label' => 'Dashboard', 'icon' => 'bi-speedometer2', 'route' => 'dashboard.index'],
         ['label' => 'Financeiro', 'icon' => 'bi-cash-coin', 'url' => '/financeiro'],
         ['label' => 'Relatórios', 'icon' => 'bi-bar-chart-line', 'url' => '/relatorios'],
-        ['label' => 'Usuários', 'icon' => 'bi-people', 'route' => 'dashboard.users'],
+        ['label' => 'Usuários', 'icon' => 'bi-people', 'route' => 'dashboard.users', 'permission' => 'users.view'],
     ]"/>
 
-    {{-- TOP BAR (MOBILE) --}}
-    <header class="lg:hidden sticky top-0 z-30 bg-white shadow px-4 py-3 flex items-center">
-        <button @click="sidebarOpen = true" class="text-slate-600">
-            <i class="bi bi-list text-2xl"></i>
-        </button>
-        <span class="ml-3 font-semibold text-slate-700">
-            {{ config('app.name') }}
-        </span>
-    </header>
 
     {{-- MAIN --}}
     <main
+        class=""
         :class="{
-            'lg:ml-72 lg:mr-8': sidebarOpen && !isMobile,
+            'lg:ml-64': sidebarOpen && !isMobile,
             'lg:ml-20': !sidebarOpen && !isMobile
         }"
         class="p-4"
-    >
+    >  
+        {{-- NAVBAR --}}
+        <x-navbar/>
+        
         <x-toast/>
         {{ $slot }}
     </main>

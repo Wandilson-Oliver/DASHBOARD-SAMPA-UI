@@ -3,11 +3,23 @@
 use App\Models\User;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\On;
 
 new #[Layout('layouts::app')] class extends Component
 {
-    // ✅ computed property
+    /**
+     * Autorização da página
+     */
+    public function mount(): void
+    {
+        abort_unless(
+            auth()->user()->hasPermission('users.view'),
+            403
+        );
+    }
+
+    /**
+     * Computed property
+     */
     public function getStatsProperty(): array
     {
         return [
@@ -20,13 +32,31 @@ new #[Layout('layouts::app')] class extends Component
 ?>
 
 
-<div class="w-full space-y-5">
+<x-content
+    title="Listagem de Usuários"
+    description="Total: {{ $this->stats['total'] }} |
+                 ativos: {{ $this->stats['active'] }} |
+                 inativos: {{ $this->stats['inactive'] }}"
+>
 
-    {{-- HEADER --}}
-    <x-header
-        title="Perfil"
-        description="Gerencie suas informações pessoais e segurança">
-        <x-slot name="buttons">
+    {{-- ACTIONS --}}
+    <x-slot name="actions">
+
+        {{-- GERENCIAR PAPÉIS / PERMISSÕES --}}
+        @if(auth()->user()->hasPermission('roles.manage'))
+            <x-button
+                size="md"
+                variant="primary"
+                :outline="true"
+                href="{{ route('dashboard.roles') }}"
+            >
+                <i class="bi bi-shield-lock"></i>
+                Permissões e Papéis
+            </x-button>
+        @endif
+
+        {{-- CRIAR USUÁRIO --}}
+        @if(auth()->user()->hasPermission('users.create'))
             <x-button
                 size="md"
                 variant="primary"
@@ -36,8 +66,9 @@ new #[Layout('layouts::app')] class extends Component
                 <i class="bi bi-plus"></i>
                 Novo Registro
             </x-button>
-        </x-slot>
-    </x-header>
+        @endif
+
+    </x-slot>
 
     {{-- FILTROS --}}
     <livewire:pages::dashboard.user.filters />
@@ -46,12 +77,18 @@ new #[Layout('layouts::app')] class extends Component
     <livewire:pages::dashboard.user.table />
 
     {{-- MODAL: CRIAR / EDITAR USUÁRIO --}}
-    <livewire:pages::dashboard.user.modal-form />
+    @if(auth()->user()->hasPermission('users.create') || auth()->user()->hasPermission('users.edit'))
+        <livewire:pages::dashboard.user.modal-form />
+    @endif
 
     {{-- MODAL: RESET DE SENHA --}}
-    <livewire:pages::dashboard.user.modal-reset-password />
+    @if(auth()->user()->hasPermission('users.reset_password'))
+        <livewire:pages::dashboard.user.modal-reset-password />
+    @endif
 
     {{-- MODAL: HISTÓRICO DE ACESSOS --}}
-    <livewire:pages::dashboard.user.modal-access />
-</div>
+    @if(auth()->user()->hasPermission('sessions.view'))
+        <livewire:pages::dashboard.user.modal-access />
+    @endif
 
+</x-content>

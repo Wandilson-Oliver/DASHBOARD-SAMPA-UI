@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('permissions', function (Blueprint $table) {
+            $table->id();
+
+            // 🧱 Organização
+            $table->string('module')->default('Geral');
+
+            // 🔐 Identificação
+            $table->string('name')->unique(); // users.view, reports.export
+            $table->string('label')->nullable(); // Nome amigável
+
+            // 🔒 Proteção do sistema
+            $table->boolean('is_system')->default(true);
+
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('permissions');
+    }
+};

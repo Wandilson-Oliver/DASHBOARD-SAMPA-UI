@@ -20,6 +20,18 @@ new class extends Component
     public ?int $activeRowId = null;
 
     /* =========================
+        AUTH
+    ========================= */
+
+    public function mount(): void
+    {
+        abort_unless(
+            auth()->user()->hasPermission('users.view'),
+            403
+        );
+    }
+
+    /* =========================
         EVENTS
     ========================= */
 
@@ -28,7 +40,6 @@ new class extends Component
     {
         $this->search = $filters['search'] ?? '';
         $this->status = $filters['status'] ?? '';
-
         $this->resetPage();
     }
 
@@ -63,7 +74,7 @@ new class extends Component
 
     public function getUsersProperty()
     {
-        return User::query()
+        return User::with('roles') // 👈 ESSENCIAL
             ->when($this->search !== '', fn ($q) =>
                 $q->where(fn ($qq) =>
                     $qq->where('name', 'like', "%{$this->search}%")
@@ -83,42 +94,51 @@ new class extends Component
 
     public function toggleStatus(int $id): void
     {
+        abort_unless(
+            auth()->user()->hasPermission('users.edit'),
+            403
+        );
+
         $user = User::findOrFail($id);
         $user->update(['status' => ! $user->status]);
 
         $this->activeRowId = $id;
-
         $this->dispatch('users.saved', ['id' => $id]);
     }
 };
 ?>
 
-<x-card class="">
+<x-card>
 
     {{-- HEADER (DESKTOP) --}}
-    <div class="hidden md:grid grid-cols-7 px-6 py-3.5 rounded-xl text-xs font-semibold bg-slate-50 text-slate-600">
-        <button wire:click="sortBy('name')" class="col-span-2 flex items-center gap-1 cursor-pointer">
+    <div
+        class="hidden md:grid grid-cols-8 px-6 py-3.5 rounded-xl
+               text-xs font-semibold bg-slate-50 text-slate-600"
+    >
+        <button wire:click="sortBy('name')" class="col-span-2 flex items-center gap-1">
             Nome
             @if($sortField === 'name')
                 <i class="bi {{ $sortDirection === 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
             @endif
         </button>
 
-        <button wire:click="sortBy('email')" class="col-span-2 flex items-center gap-1 cursor-pointer">
+        <button wire:click="sortBy('email')" class="col-span-2 flex items-center gap-1">
             Email
             @if($sortField === 'email')
                 <i class="bi {{ $sortDirection === 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
             @endif
         </button>
 
-        <button wire:click="sortBy('created_at')" class="flex items-center gap-1 cursor-pointer">
+        <div>Papel</div>
+
+        <button wire:click="sortBy('created_at')" class="flex items-center gap-1">
             Criado em
             @if($sortField === 'created_at')
                 <i class="bi {{ $sortDirection === 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
             @endif
         </button>
 
-        <button wire:click="sortBy('status')" class="flex items-center gap-1 cursor-pointer">
+        <button wire:click="sortBy('status')" class="flex items-center gap-1">
             Status
             @if($sortField === 'status')
                 <i class="bi {{ $sortDirection === 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
@@ -129,21 +149,23 @@ new class extends Component
     </div>
 
     {{-- BODY --}}
-    <div class="space-y-2 px-3 py-3">
+    <div class="space-y-2 py-3">
         @foreach($this->users as $user)
             @php
                 $initials = collect(explode(' ', $user->name))
                     ->map(fn ($n) => strtoupper(substr($n, 0, 1)))
                     ->take(2)
                     ->implode('');
+
+                $role = $user->roles->first(); // 👈 AGORA EXISTE
             @endphp
 
             <div
                 class="
                     grid grid-cols-1 gap-2
-                    md:grid md:grid-cols-7 md:items-center
+                    md:grid md:grid-cols-8 md:items-center
                     px-3 py-2 rounded-2xl
-                    {{ $loop->index % 2 === 0 ? 'bg-white' : 'bg-slate-50' }}
+                    {{ $loop->even ? 'bg-slate-50' : 'bg-white' }}
                     {{ $activeRowId === $user->id ? 'ring-2 ring-primary/30' : '' }}
                     hover:bg-slate-100 transition
                 "
@@ -154,14 +176,13 @@ new class extends Component
                         @if ($user->avatar)
                             <img
                                 src="{{ asset('storage/' . $user->avatar) }}"
-                                alt="{{ $user->name }}"
                                 class="w-12 h-12 rounded-full object-cover"
                             >
                         @else
                             <div
-                                class="w-12 h-12 rounded-full
-                                    bg-slate-200 flex items-center justify-center
-                                    text-sm font-semibold text-slate-600"
+                                class="w-12 h-12 rounded-full bg-slate-200
+                                       flex items-center justify-center
+                                       text-sm font-semibold text-slate-600"
                             >
                                 {{ $initials }}
                             </div>
@@ -169,28 +190,34 @@ new class extends Component
                     </div>
 
                     <div class="min-w-0">
-                        <div class="text-xs text-slate-400 md:hidden">Nome</div>
                         <div class="font-semibold truncate">
                             {{ $user->name }}
                         </div>
+                        <x-badge size="sm" variant="secondary">
+                            {{ $role->label ?? $role->name ?? '—' }}
+                        </x-badge>
                     </div>
                 </div>
 
                 {{-- EMAIL --}}
-                <div class="md:col-span-2">
-                    <div class="text-xs text-slate-400 md:hidden">Email</div>
-                    <div class="text-sm break-all">{{ $user->email }}</div>
+                <div class="md:col-span-2 text-sm break-all">
+                    {{ $user->email }}
+                </div>
+
+                {{-- PAPEL --}}
+                <div class="hidden md:block">
+                    <x-badge size="sm" variant="secondary">
+                        {{ $role->label ?? $role->name ?? '—' }}
+                    </x-badge>
                 </div>
 
                 {{-- CRIADO --}}
-                <div>
-                    <div class="text-xs text-slate-400 md:hidden">Criado em</div>
-                    <div class="text-sm">{{ $user->created_at->format('d/m/Y') }}</div>
+                <div class="text-sm">
+                    {{ $user->created_at->format('d/m/Y') }}
                 </div>
 
                 {{-- STATUS --}}
                 <div>
-                    <div class="text-xs text-slate-400 md:hidden">Status</div>
                     <x-badge
                         size="sm"
                         :variant="$user->status ? 'success' : 'danger'"
@@ -203,43 +230,30 @@ new class extends Component
 
                 {{-- AÇÕES --}}
                 <div class="flex justify-end gap-2">
-                    <x-button
-                        size="sm"
-                        variant="primary"
-                        :outline="true"
-                        @click="$dispatch('logins.open', { id: {{ $user->id }} })"
-                    >
-                        <i class="bi bi-clock-history"></i>
-                        Acessos
-                    </x-button>
+                     @if(auth()->user()->hasPermission('sessions.view'))
+                        <x-button size="sm" variant="primary" :outline="true"
+                            @click="$dispatch('logins.open', { id: {{ $user->id }} })">
+                            <i class="bi bi-clock-history"></i>
+                        </x-button>
+                    @endif
 
+                    @if(auth()->user()->hasPermission('users.edit'))
+                        <x-button size="sm" variant="warning" :outline="true"
+                            @click="$dispatch('users.edit', { id: {{ $user->id }} })">
+                            <i class="bi bi-pencil"></i>
+                        </x-button>
+                    @endif
 
-
-                    <x-button
-                        size="sm"
-                        variant="warning"
-                        :outline="true"
-                        @click="$dispatch('users.edit', { id: {{ $user->id }} })"
-                    >
-                        <i class="bi bi-pencil"></i>
-                    </x-button>
-
-
-                    <x-button
-                        size="sm"
-                        variant="primary"
-                        :outline="true"
-                        @click="$dispatch('users.reset.confirm', { id: {{ $user->id }} })"
-                    >
+                    @if(auth()->user()->hasPermission('users.reset_password'))
+                    <x-button size="sm" variant="secondary" :outline="true"
+                        @click="$dispatch('users.reset.confirm', { id: {{ $user->id }} })">
                         <i class="bi bi-key"></i>
                     </x-button>
-
+                    @endif
                 </div>
-
             </div>
         @endforeach
     </div>
-
 
     {{-- FOOTER --}}
     <div class="mt-4 flex flex-col md:flex-row justify-between items-center gap-3 text-sm">

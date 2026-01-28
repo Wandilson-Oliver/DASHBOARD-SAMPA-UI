@@ -10,7 +10,7 @@
     {{ $attributes->merge([
         'class' => '
             group flex items-center gap-4
-            px-4 py-3 rounded-xl
+            pl-4 py-3 rounded-xl
             transition-all duration-200
             ' . (
                 $active

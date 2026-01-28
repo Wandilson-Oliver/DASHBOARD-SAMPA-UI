@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
+use App\Models\UserLogin;
 
 class EnsureSessionIsValid
 {
@@ -14,12 +15,22 @@ class EnsureSessionIsValid
     {
         if (Auth::check()) {
             $sessionId = session()->getId();
+            $userId    = Auth::id();
 
             $exists = DB::table('sessions')
                 ->where('id', $sessionId)
                 ->exists();
 
             if (! $exists) {
+
+                // 🧾 FECHA O HISTÓRICO DA SESSÃO (parte que faltava)
+                UserLogin::where('user_id', $userId)
+                    ->where('session_id', $sessionId)
+                    ->whereNull('logged_out_at')
+                    ->update([
+                        'logged_out_at' => now(),
+                    ]);
+
                 // 🔥 logout completo
                 Auth::logout();
 
@@ -35,7 +46,7 @@ class EnsureSessionIsValid
                 return redirect()
                     ->route('login')
                     ->withErrors([
-                        'session' => 'Sua sessão foi encerrada em outro dispositivo.',
+                        'session' => 'Sua sessão expirou ou foi encerrada.',
                     ]);
             }
         }

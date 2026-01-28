@@ -168,6 +168,7 @@ new #[Layout('layouts::app')] class extends Component
                         </div>
 
                         <div class="text-right">
+                            @if(auth()->user()->hasPermission('sessions.terminate'))
                             @if(! $login->logged_out_at && ! $isCurrent)
                                 <x-button
                                     size="sm"
@@ -178,6 +179,7 @@ new #[Layout('layouts::app')] class extends Component
                                     <i class="bi bi-box-arrow-right"></i>
                                     Encerrar
                                 </x-button>
+                            @endif
                             @endif
                         </div>
                     </div>

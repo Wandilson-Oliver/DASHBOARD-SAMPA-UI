@@ -7,7 +7,7 @@
 @php
     $classes = trim(implode(' ', array_filter([
         'card',
-        "p-8",
+        "p-5",
         "card-{$variant}",
         $attributes->get('class'),
     ])));

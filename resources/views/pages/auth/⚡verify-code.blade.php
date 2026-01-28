@@ -64,10 +64,6 @@ new #[Layout('layouts::auth')] class extends Component
         // 🔐 LOGIN DEFINITIVO
         Auth::login($user, $remember);
 
-        // 🔑 GERA A SESSÃO FINAL (ESSENCIAL)
-
-
-
         // 🧹 Limpa estado temporário
         session()->forget([
             '2fa:user:id',

@@ -138,13 +138,8 @@ new #[Layout('layouts::app')] class extends Component
 };
 ?>
 
-<div class="w-full space-y-6">
+<x-content title="Meu Perfil" description="Gerencie suas informações pessoais e segurança">
 
-    {{-- HEADER --}}
-    <x-header
-        title="Perfil"
-        description="Gerencie suas informações pessoais e segurança">
-    </x-header>
 
     <x-card>
         <form wire:submit.prevent="save" class="flex gap-10">
@@ -304,4 +299,4 @@ new #[Layout('layouts::app')] class extends Component
             </div>
         </form>
     </x-card>
-</div>
+</x-content>

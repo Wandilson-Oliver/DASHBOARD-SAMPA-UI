@@ -3,6 +3,7 @@
     'size' => 'md',         // sm | md | lg | xl
     'type' => 'button',
     'outline' => false,
+    'href' => null,         // 👈 NOVO
 ])
 
 @php
@@ -17,9 +18,21 @@
     }
 @endphp
 
-<button
-    type="{{ $type }}"
-    {{ $attributes->merge(['class' => $classes]) }}
->
-    {{ $slot }}
-</button>
+@if($href)
+    {{-- LINK --}}
+    <a
+        href="{{ $href }}"
+        wire:navigate
+        {{ $attributes->merge(['class' => $classes]) }}
+    >
+        {{ $slot }}
+    </a>
+@else
+    {{-- BUTTON --}}
+    <button
+        type="{{ $type }}"
+        {{ $attributes->merge(['class' => $classes]) }}
+    >
+        {{ $slot }}
+    </button>
+@endif
