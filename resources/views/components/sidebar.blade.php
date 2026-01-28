@@ -5,47 +5,50 @@
 <aside
     x-cloak
     :class="[
-        sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full lg:translate-x-0 lg:w-20',
-        isMobile ? 'fixed z-50 bg-white' : 'fixed z-30'
+        sidebarOpen ? 'translate-x-0 w-64 px-3 bg-[#f6f7fc]' : '-translate-x-full lg:translate-x-0 lg:w-20',
+        isMobile ? 'fixed z-50' : 'fixed z-30'
     ]"
     class="inset-y-0 left-0
            transition-all duration-300 ease-in-out
            flex flex-col justify-between"
 >
     {{-- LOGO --}}
-    <div class="flex items-center gap-3 px-5 py-6">
-        <div class="w-10 h-10 bg-linear-to-br from-cyan-500 to-cyan-600
+    <div class="flex items-center gap-3 px-5 py-6 mt-5">
+        <div class="w-10 h-10 bg-teal-600
                     rounded-xl flex items-center justify-center
-                    text-white font-bold shadow">
-            FI
+                    text-white font-bold">
+            OL
         </div>
 
         <span
             x-show="sidebarOpen"
             x-transition
-            class="font-semibold text-lg whitespace-nowrap text-cyan-700"
+            class="font-semibold text-lg whitespace-nowrap text-teal-700"
         >
-            Sistema Financeiro
+            Financeiro
         </span>
     </div>
 
     {{-- MENU --}}
     <nav class="flex-1 mt-2 space-y-1 px-2 overflow-y-auto">
         @foreach($items as $item)
-            <x-sidebar-item
-                :href="$item['route'] ?? $item['url'] ?? '#'"
-                :icon="$item['icon'] ?? null"
-                :active="
-                    $item['active']
-                        ?? (isset($item['route'])
-                            ? request()->routeIs($item['route'])
-                            : request()->is(ltrim($item['url'] ?? '', '/').'*'))
-                "
-                @click="if (isMobile) sidebarOpen = false"
-            >
-                {{ $item['label'] }}
-            </x-sidebar-item>
-        @endforeach
+    <x-sidebar-item
+        :href="isset($item['route'])
+            ? route($item['route'])
+            : ($item['url'] ?? '#')"
+        :icon="$item['icon'] ?? null"
+        :active="
+            $item['active']
+                ?? (isset($item['route'])
+                    ? request()->routeIs($item['route'] . '*')
+                    : request()->is(ltrim($item['url'] ?? '', '/').'*'))
+        "
+        @click="if (isMobile) sidebarOpen = false"
+    >
+        {{ $item['label'] }}
+    </x-sidebar-item>
+@endforeach
+
     </nav>
 
     {{-- FOOTER --}}
@@ -67,7 +70,7 @@
                 type="button"
                 @click="openProfile = !openProfile"
                 class="w-full flex items-center gap-3 px-3 py-3 rounded-xl
-                       hover:bg-cyan-50 transition"
+                       hover:bg-teal-50 transition"
             >
                 {{-- Avatar --}}
                 <div class="relative shrink-0">
@@ -79,7 +82,7 @@
                     @else
                         <div
                             class="w-10 h-10 rounded-xl
-                                   bg-linear-to-br from-cyan-500 to-cyan-600
+                                   bg-linear-to-br from-teal-500 to-teal-600
                                    flex items-center justify-center
                                    text-white font-bold"
                         >
@@ -114,7 +117,7 @@
                 <a
                     href="{{ route('dashboard.profile') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm
-                           text-slate-600 hover:bg-cyan-50 hover:text-cyan-700"
+                           text-slate-600 hover:bg-teal-50 hover:text-teal-700"
                 >
                     <i class="bi bi-person-circle"></i>
                     Meu perfil
@@ -139,7 +142,7 @@
             class="hidden lg:flex justify-center"
         >
             <div
-                class="w-11 h-11 bg-linear-to-br from-cyan-500 to-cyan-600
+                class="w-11 h-11 bg-teal-600
                        rounded-full flex items-center justify-center
                        text-white shadow hover:scale-105 transition"
             >

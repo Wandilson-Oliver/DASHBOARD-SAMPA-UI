@@ -11,7 +11,7 @@
 </head>
 
 <body
-    class="min-h-screen bg-slate-200"
+    class="min-h-screen bg-[#f6f7fc]"
     x-data="{
         sidebarOpen: false,
         isMobile: window.matchMedia('(max-width: 1024px)').matches
@@ -38,7 +38,7 @@
         ['label' => 'Dashboard', 'icon' => 'bi-speedometer2', 'route' => 'dashboard.index'],
         ['label' => 'Financeiro', 'icon' => 'bi-cash-coin', 'url' => '/financeiro'],
         ['label' => 'Relatórios', 'icon' => 'bi-bar-chart-line', 'url' => '/relatorios'],
-        ['label' => 'Configurações', 'icon' => 'bi-sliders2-vertical', 'route' => 'dashboard.settings'],
+        ['label' => 'Usuários', 'icon' => 'bi-people', 'route' => 'dashboard.users'],
     ]"/>
 
     {{-- TOP BAR (MOBILE) --}}

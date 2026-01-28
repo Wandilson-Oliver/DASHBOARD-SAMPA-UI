@@ -143,8 +143,8 @@ new #[Layout('layouts::app')] class extends Component
     {{-- HEADER --}}
     <x-header
         title="Perfil"
-        description="Gerencie suas informações pessoais e segurança"
-    />
+        description="Gerencie suas informações pessoais e segurança">
+    </x-header>
 
     <x-card>
         <form wire:submit.prevent="save" class="flex gap-10">

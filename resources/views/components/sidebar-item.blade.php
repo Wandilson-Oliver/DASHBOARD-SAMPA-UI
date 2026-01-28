@@ -6,6 +6,7 @@
 
 <a
     href="{{ $href }}"
+    wire:navigate
     {{ $attributes->merge([
         'class' => '
             group flex items-center gap-4
@@ -13,9 +14,9 @@
             transition-all duration-200
             ' . (
                 $active
-                    ? 'bg-linear-to-r from-cyan-500 to-cyan-600
-                       text-white shadow scale-[1.02]'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-cyan-700'
+                    ? 'bg-teal-500
+                       text-white shadow-xl'
+                    : 'text-slate-500 hover:bg-white hover:text-teal-700'
             )
     ]) }}
 >

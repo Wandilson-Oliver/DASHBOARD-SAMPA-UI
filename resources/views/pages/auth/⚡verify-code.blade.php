@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\UserLogin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -36,8 +37,7 @@ new #[Layout('layouts::auth')] class extends Component
             abort(403);
         }
 
-        
-        // ⏱ Expirado
+        // ⏱ Código expirado
         if (
             ! $user->two_factor_code ||
             ! $user->two_factor_expires_at ||
@@ -47,7 +47,7 @@ new #[Layout('layouts::auth')] class extends Component
             return;
         }
 
-        // 🔐 Confere código (STRING!)
+        // 🔐 Confere código
         if (! Hash::check((string) $this->code, $user->two_factor_code)) {
             $this->addError('code', 'Código inválido.');
             return;
@@ -55,18 +55,20 @@ new #[Layout('layouts::auth')] class extends Component
 
         // ✅ Limpa dados 2FA
         $user->forceFill([
-            'two_factor_code' => null,
+            'two_factor_code'       => null,
             'two_factor_expires_at' => null,
         ])->save();
 
-        session()->forget('2fa:user:id');
-
         $remember = session('2fa:remember', false);
 
-        // 🔐 LOGIN FINAL
+        // 🔐 LOGIN DEFINITIVO
         Auth::login($user, $remember);
-        session()->regenerate();
 
+        // 🔑 GERA A SESSÃO FINAL (ESSENCIAL)
+
+
+
+        // 🧹 Limpa estado temporário
         session()->forget([
             '2fa:user:id',
             '2fa:remember',
@@ -85,11 +87,11 @@ new #[Layout('layouts::auth')] class extends Component
 
         $user = User::findOrFail($userId);
 
-        // 🔐 Gera NOVO código (STRING)
+        // 🔐 Gera novo código
         $code = (string) random_int(100000, 999999);
 
         $user->forceFill([
-            'two_factor_code' => Hash::make($code),
+            'two_factor_code'       => Hash::make($code),
             'two_factor_expires_at' => now()->addMinutes(10),
         ])->save();
 
@@ -100,8 +102,8 @@ new #[Layout('layouts::auth')] class extends Component
         session()->flash('success', 'Novo código enviado para seu e-mail.');
     }
 };
-
 ?>
+
 
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-600 to-teal-700 p-4">
     <div class="w-full max-w-md">
@@ -136,6 +138,15 @@ new #[Layout('layouts::auth')] class extends Component
                     >
                         Reenviar código
                     </button>
+
+                    <div class="text-sm">
+                        <a
+                            href="{{ route('login') }}"
+                            class="underline hover:text-teal-600"
+                        >
+                            Voltar para o login
+                        </a>
+                    </div>
 
                     <x-button
                         type="submit"

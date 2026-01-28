@@ -1,6 +1,8 @@
 # 📊 Sistema de Dashboard
 
-Sistema web moderno, responsivo e seguro, desenvolvido com foco em **autenticação avançada**, **experiência do usuário** e **boas práticas de segurança**.
+Sistema web moderno, **seguro, responsivo e escalável**, desenvolvido com foco em  
+**autenticação avançada**, **controle de sessões**, **experiência do usuário**  
+e **boas práticas de segurança**.
 
 ---
 
@@ -17,23 +19,20 @@ Sistema web moderno, responsivo e seguro, desenvolvido com foco em **autenticaç
 
 ## 📌 Visão Geral
 
-O sistema consiste em um **Dashboard Web Responsivo**, com autenticação robusta, proteção contra tentativas indevidas de acesso, verificação em duas etapas via e-mail e gerenciamento completo do perfil do usuário.
+Dashboard simples na aparência, porém **robusto e poderoso**, projetado para
+**acelerar o desenvolvimento de aplicações web modernas** com alto nível de segurança.
 
----
-
-## 🖥️ Interface & Experiência do Usuário
-
-- Layout moderno e limpo
-- Totalmente **responsivo** (desktop, tablet e mobile)
-- Navegação intuitiva
-- Feedback visual para ações do usuário
-- Componentes reutilizáveis com Design System baseado em Tailwind
+O sistema fornece uma base sólida para projetos que exigem:
+- Autenticação forte
+- Controle de sessões
+- Histórico de acesso
+- Experiência fluida e reativa
 
 ---
 
 ## 🔐 Autenticação & Segurança
 
-### Login
+### 🔑 Login
 
 - Autenticação via **e-mail e senha**
 - Limite de **até 3 tentativas consecutivas de login**
@@ -45,45 +44,61 @@ O sistema consiste em um **Dashboard Web Responsivo**, com autenticação robust
 
 ---
 
-### 🔑 Verificação em Duas Etapas (E-mail)
+### 🔐 Verificação em Duas Etapas (2FA via E-mail)
 
-Após login bem-sucedido:
+Após o login inicial:
 
 1. Geração automática de um **código de verificação único**
 2. Envio do código para o **e-mail do usuário**
 3. Validação obrigatória para concluir o login
-4. Código:
+4. O código:
    - Possui tempo de expiração
-   - Uso único
-   - Invalidado após confirmação
+   - É de uso único
+   - É invalidado após a confirmação
+
+Esse fluxo garante uma **camada extra de segurança**, mesmo quando o usuário utiliza
+o recurso **Remember Me**.
 
 ---
 
-## 🔁 Recuperação de Senha
+## 👥 Gestão de Usuários
 
-### Redefinição por Link de E-mail
+### 🔁 Recuperação de Senha
+
+#### Redefinição por Link de E-mail
 
 - Fluxo seguro de redefinição de senha
 - Link enviado para o e-mail cadastrado
 - Token de redefinição:
   - Uso único
   - Tempo de expiração configurável
-- Validação de força da nova senha
+- Validação da força da nova senha
 
 ---
 
-## 👤 Login
+### 📜 Listagem de Usuários
 
-| Login | Verificação |
-|------|-------------|
+- Visualização de usuários cadastrados
+- **Histórico de acessos por usuário**
+- Identificação de dispositivos conectados
+- Possibilidade de **encerrar sessões em outros dispositivos**
+- Proteção contra encerramento da sessão atual
+
+---
+
+## 👤 Autenticação (Interface)
+
+| Login | Verificação 2FA |
+|------|----------------|
 | ![Tela de Login](./login.png) | ![Tela de Verificação](./verify.png) |
 
-
+---
 
 ## 👤 Perfil do Usuário
-![image info](./page-profile.png)
 
-### Edição de Dados Pessoais
+![Perfil do Usuário](./page-profile.png)
+
+### ✏️ Edição de Dados Pessoais
 
 O usuário pode editar:
 
@@ -114,7 +129,6 @@ A senha é validada automaticamente com base em:
 - Caracteres especiais
 
 Indicador visual de força:
-
 - Fraca
 - Média
 - Forte
@@ -127,25 +141,29 @@ Indicador visual de força:
 - Tokens protegidos contra reutilização
 - Sessões invalidadas em:
   - Logout manual
+  - Encerramento remoto de sessão
   - Alteração de senha
-- Proteção contra CSRF
-- Validação de dados no backend e frontend
+- Proteção contra **CSRF**
+- Validação de dados no **backend e frontend**
+- Controle de sessão com verificação ativa no middleware
 
 ---
 
 ## 📦 Funcionalidades Resumidas
 
-| Funcionalidade                         | Status |
-|---------------------------------------|--------|
-| Login Seguro                          | ✅ |
-| Limite de Tentativas de Login         | ✅ |
-| Remember Me                           | ✅ |
-| Verificação por Código via E-mail     | ✅ |
-| Recuperação de Senha por E-mail       | ✅ |
-| Dashboard Responsivo                  | ✅ |
-| Edição de Perfil                      | ✅ |
-| Geração Automática de Senha           | ✅ |
-| Indicador de Força de Senha           | ✅ |
+| Funcionalidade                                   | Status |
+|------------------------------------------------|--------|
+| Login Seguro                                    | ✅ |
+| Limite de Tentativas de Login                   | ✅ |
+| Remember Me                                     | ✅ |
+| Verificação em Duas Etapas (E-mail)             | ✅ |
+| Recuperação de Senha por E-mail                 | ✅ |
+| Controle de Sessões por Dispositivo             | ✅ |
+| Encerramento Remoto de Sessões                  | ✅ |
+| Dashboard Responsivo                            | ✅ |
+| Edição de Perfil                                | ✅ |
+| Geração Automática de Senha                     | ✅ |
+| Indicador de Força de Senha                     | ✅ |
 
 ---
 
@@ -154,27 +172,25 @@ Indicador visual de força:
 - Backend baseado em **Laravel**
 - Componentes reativos com **Livewire**
 - Interações leves com **Alpine.js**
-- Estilização com **Tailwind CSS**
+- Estilização moderna com **Tailwind CSS**
 - Separação clara entre:
   - Autenticação
   - Autorização
+  - Sessões
   - Perfil do Usuário
 
 ---
 
 ## 🚀 Possíveis Evoluções Futuras
 
-- Autenticação multifator (TOTP / App Authenticator)
-- Logs de atividades do usuário
+
 - Gestão de permissões e papéis (Roles & Permissions)
 - Notificações via SMS ou WhatsApp
 - Internacionalização (i18n)
+- Monitoramento de login suspeito (IP / dispositivo)
 
 ---
 
 ## 📄 Licença
 
-Este projeto é de uso interno/privado.  
-Distribuição ou comercialização depende de autorização do autor.
-
----
+Voçê pode baixar e usar quantas vezes quiser, sem limite e sem restrinção.
