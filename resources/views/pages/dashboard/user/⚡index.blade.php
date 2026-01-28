@@ -91,4 +91,15 @@ new #[Layout('layouts::app')] class extends Component
         <livewire:pages::dashboard.user.modal-access />
     @endif
 
+
+    {{-- MODAL: HISTÓRICO DE ACESSOS --}}
+    @if(auth()->user()->hasPermission('users.delete'))
+        <livewire:pages::dashboard.user.modal-delete />
+    @endif
+
+    {{-- MODAL: HISTÓRICO DE ACESSOS --}}
+    @if(auth()->user()->hasPermission('users.restore'))
+        <livewire:pages::dashboard.user.modal-restore />
+    @endif
+
 </x-content>

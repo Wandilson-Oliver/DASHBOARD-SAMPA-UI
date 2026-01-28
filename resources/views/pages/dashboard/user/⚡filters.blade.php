@@ -9,7 +9,7 @@ new #[Layout('layouts::app')] class extends Component
     public string $status = '';
 
     /* =================================================
-     | Watchers explícitos (melhor prática)
+     | Watchers explícitos
      ================================================= */
     public function updatedSearch(): void
     {
@@ -35,17 +35,11 @@ new #[Layout('layouts::app')] class extends Component
         $this->emitFilters();
     }
 };
-
 ?>
 
-
 <x-card class="mb-5">
-    <div
-        class="
-            grid grid-cols-1 gap-4
-            lg:grid-cols-4
-        "
-    >
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-4">
+
         {{-- SEARCH --}}
         <div class="lg:col-span-2">
             <x-input
@@ -65,12 +59,12 @@ new #[Layout('layouts::app')] class extends Component
                 label="Status"
                 variant="success"
                 size="lg"
-
                 class="bg-slate-50"
                 placeholder="Todos"
                 :options="[
                     ['id' => 'active', 'label' => 'Ativo'],
                     ['id' => 'inactive', 'label' => 'Inativo'],
+                    ['id' => 'deleted', 'label' => 'Deletado'],
                 ]"
                 wire:model.live="status"
             />
@@ -91,4 +85,3 @@ new #[Layout('layouts::app')] class extends Component
         </div>
     </div>
 </x-card>
-

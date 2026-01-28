@@ -12,7 +12,7 @@ new class extends Component
     protected $paginationTheme = 'tailwind';
 
     public string $search = '';
-    public string $status = '';
+    public string $status = ''; // active | inactive | deleted
 
     public string $sortField = 'id';
     public string $sortDirection = 'desc';
@@ -69,20 +69,27 @@ new class extends Component
     }
 
     /* =========================
-        DATA
+        DATA (SOFT DELETE AJUSTADO)
     ========================= */
 
     public function getUsersProperty()
     {
-        return User::with('roles') // 👈 ESSENCIAL
+        return User::
+            with('roles')
             ->when($this->search !== '', fn ($q) =>
                 $q->where(fn ($qq) =>
                     $qq->where('name', 'like', "%{$this->search}%")
                        ->orWhere('email', 'like', "%{$this->search}%")
                 )
             )
-            ->when($this->status !== '', fn ($q) =>
-                $q->where('status', $this->status === 'active')
+            ->when($this->status === 'active', fn ($q) =>
+                $q->where('status', true)->whereNull('deleted_at')
+            )
+            ->when($this->status === 'inactive', fn ($q) =>
+                $q->where('status', false)->whereNull('deleted_at')
+            )
+            ->when($this->status === 'deleted', fn ($q) =>
+                $q->onlyTrashed()
             )
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(10);
@@ -103,6 +110,38 @@ new class extends Component
         $user->update(['status' => ! $user->status]);
 
         $this->activeRowId = $id;
+        $this->dispatch('users.saved', ['id' => $id]);
+    }
+
+    public function destroy(string $id): void
+    {
+        abort_unless(
+            auth()->user()->hasPermission('users.delete'),
+            403
+        );
+
+        $user = User::withTrashed()->findOrFail($id);
+
+        if (! $user->trashed()) {
+            $user->delete();
+        }
+
+        $this->dispatch('users.saved');
+    }
+
+    public function restore(string $id): void
+    {
+        abort_unless(
+            auth()->user()->hasPermission('users.restore'),
+            403
+        );
+
+        $user = User::withTrashed()->findOrFail($id);
+
+        if ($user->trashed()) {
+            $user->restore();
+        }
+
         $this->dispatch('users.saved', ['id' => $id]);
     }
 };
@@ -165,8 +204,9 @@ new class extends Component
                     grid grid-cols-1 gap-2
                     md:grid md:grid-cols-8 md:items-center
                     px-3 py-2 rounded-2xl
-                    {{ $loop->even ? 'bg-slate-50' : 'bg-white' }}
+                    {{ $loop->even ? 'bg-slate-100' : '' }}
                     {{ $activeRowId === $user->id ? 'ring-2 ring-primary/30' : '' }}
+                     {{ $user->trashed() ? 'bg-red-50' : '' }}
                     hover:bg-slate-100 transition
                 "
             >
@@ -230,25 +270,45 @@ new class extends Component
 
                 {{-- AÇÕES --}}
                 <div class="flex justify-end gap-2">
-                     @if(auth()->user()->hasPermission('sessions.view'))
-                        <x-button size="sm" variant="primary" :outline="true"
-                            @click="$dispatch('logins.open', { id: {{ $user->id }} })">
-                            <i class="bi bi-clock-history"></i>
+                    @if(!$user->trashed())
+                        @if(auth()->user()->hasPermission('sessions.view'))
+                            <x-button size="sm" variant="primary" :outline="true"
+                                @click="$dispatch('logins.open', { id: {{ $user->id }} })">
+                                <i class="bi bi-clock-history"></i>
+                            </x-button>
+                        @endif
+
+                        @if(auth()->user()->hasPermission('users.edit'))
+                            <x-button size="sm" variant="warning" :outline="true"
+                                @click="$dispatch('users.edit', { id: {{ $user->id }} })">
+                                <i class="bi bi-pencil"></i>
+                            </x-button>
+                        @endif
+
+                        @if(auth()->user()->hasPermission('users.reset_password'))
+                        <x-button size="sm" variant="secondary" :outline="true"
+                            @click="$dispatch('users.reset.confirm', { id: {{ $user->id }} })">
+                            <i class="bi bi-key"></i>
                         </x-button>
+                        @endif
+
+
+                        @if(auth()->user()->hasPermission('users.delete'))
+                            <x-button size="sm" variant="error"
+                                @click="$dispatch('users.delete.confirm', { id: {{ $user->id }} })">
+                                <i class="bi bi-trash"></i>
+                            </x-button>
+                        @endif
                     @endif
 
-                    @if(auth()->user()->hasPermission('users.edit'))
-                        <x-button size="sm" variant="warning" :outline="true"
-                            @click="$dispatch('users.edit', { id: {{ $user->id }} })">
-                            <i class="bi bi-pencil"></i>
+                    {{-- RESTORE --}}
+                    @if($user->trashed() && auth()->user()->hasPermission('users.restore'))
+                        @if(auth()->user()->hasPermission('users.restore'))
+                        <x-button size="sm" variant="secondary" :outline="true"
+                            @click="$dispatch('users.restore.confirm', { id: {{ $user->id }} })">
+                            <i class="bi bi-arrow-clockwise"></i>
                         </x-button>
-                    @endif
-
-                    @if(auth()->user()->hasPermission('users.reset_password'))
-                    <x-button size="sm" variant="secondary" :outline="true"
-                        @click="$dispatch('users.reset.confirm', { id: {{ $user->id }} })">
-                        <i class="bi bi-key"></i>
-                    </x-button>
+                        @endif
                     @endif
                 </div>
             </div>
