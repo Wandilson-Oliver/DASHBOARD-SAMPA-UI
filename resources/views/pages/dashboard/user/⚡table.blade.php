@@ -293,11 +293,14 @@ new class extends Component
                         @endif
 
 
-                        @if(auth()->user()->hasPermission('users.delete'))
-                            <x-button size="sm" variant="error"
-                                @click="$dispatch('users.delete.confirm', { id: {{ $user->id }} })">
-                                <i class="bi bi-trash"></i>
-                            </x-button>
+                        @if (auth()->user()->id !== $user->id)
+                            {{-- DELETE --}}
+                            @if(auth()->user()->hasPermission('users.delete'))
+                                <x-button size="sm" variant="error"
+                                    @click="$dispatch('users.delete.confirm', { id: {{ $user->id }} })">
+                                    <i class="bi bi-trash"></i>
+                                </x-button>
+                            @endif
                         @endif
                     @endif
 

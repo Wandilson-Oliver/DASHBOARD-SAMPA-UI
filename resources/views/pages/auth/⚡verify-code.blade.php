@@ -125,43 +125,50 @@ new #[Layout('layouts::auth')] class extends Component
                     </p>
                 @endif
 
-                <div class="flex justify-between items-center pt-2">
-                    <button
-                        type="button"
-                        wire:click="resend"
-                        class="text-sm underline text-slate-600 hover:text-teal-600"
-                        wire:loading.attr="disabled"
-                    >
-                        Reenviar código
-                    </button>
+                <div class="pt-2">
+                    <div class="flex justify-between items-center">
+                                            <button
+                                            type="button"
+                                            wire:click="resend"
+                                            class="text-sm underline text-slate-600 hover:text-teal-600"
+                                            wire:loading.attr="disabled"
+                                        >
+                                            Reenviar código
+                                        </button>
 
-                    <div class="text-sm">
-                        <a
-                            href="{{ route('login') }}"
-                            class="underline hover:text-teal-600"
-                        >
-                            Voltar para o login
-                        </a>
+                                        
+
+                                        <x-button
+                                            type="submit"
+                                            size="lg"
+                                            wire:loading.attr="disabled"
+                                            wire:target="verify"
+                                        >
+                                            <span wire:loading.remove wire:target="verify">
+                                                Verificar
+                                            </span>
+
+                                            <span wire:loading wire:target="verify">
+                                                Verificando…
+                                            </span>
+                                        </x-button>
                     </div>
 
-                    <x-button
-                        type="submit"
-                        size="lg"
-                        wire:loading.attr="disabled"
-                        wire:target="verify"
-                    >
-                        <span wire:loading.remove wire:target="verify">
-                            Verificar
-                        </span>
-
-                        <span wire:loading wire:target="verify">
-                            Verificando…
-                        </span>
-                    </x-button>
+                    
                 </div>
+                
 
             </form>
         </x-card>
+
+        <div class="flex justify-center mt-5 text-sm text-slate-200">
+            <a
+                href="{{ route('login') }}"
+                class="underline hover:text-white"
+            >
+                Voltar para o login
+            </a>
+        </div>
 
     </div>
 </div>

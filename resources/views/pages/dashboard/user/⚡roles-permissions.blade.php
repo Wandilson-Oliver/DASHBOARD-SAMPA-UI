@@ -99,16 +99,18 @@ new #[Layout('layouts::app')] class extends Component
 
         $this->roleUsers = $role->users
             ->map(fn ($u) => [
-                'id'        => $u->id,
-                'name'      => $u->name,
-                'email'     => $u->email,
-                'is_admin'  => $u->hasRole('admin'),
+                'id'       => $u->id,
+                'name'     => $u->name,
+                'email'    => $u->email,
+                'is_admin' => $u->hasRole('admin'),
             ])
             ->toArray();
     }
 
     public function updateRole(): void
     {
+        abort_unless($this->selectedRoleId, 404);
+
         $role = Role::findOrFail($this->selectedRoleId);
         abort_if($role->name === 'admin', 403);
 
@@ -122,19 +124,28 @@ new #[Layout('layouts::app')] class extends Component
         ]);
 
         $this->dispatch('toast', type: 'success', title: 'Papel atualizado');
+
+        // 🔄 garante refresh visual
+        $this->selectRole($role->id);
     }
 
     public function saveRolePermissions(): void
     {
+        abort_unless($this->selectedRoleId, 404);
+
         $role = Role::findOrFail($this->selectedRoleId);
         abort_if($role->name === 'admin', 403);
 
         $role->permissions()->sync($this->selectedPermissions);
 
         $this->dispatch('toast', type: 'success', title: 'Permissões salvas');
+
+        // 🔄 recarrega papel e permissões
+        $this->selectRole($role->id);
     }
 };
 ?>
+
 
 <x-content title="Papéis & Permissões">
 
@@ -146,14 +157,16 @@ new #[Layout('layouts::app')] class extends Component
 
         <form wire:submit.prevent="createRole" class="space-y-2 mb-6">
             <x-input label="Novo papel" wire:model.defer="newRoleLabel"/>
-            <x-button size="sm">Criar papel</x-button>
+            <x-button size="sm" type="submit">Criar papel</x-button>
         </form>
 
         @foreach($this->roles as $role)
             <button
+                wire:key="role-{{ $role->id }}"
                 wire:click="selectRole({{ $role->id }})"
                 class="w-full px-3 py-2 rounded-lg text-left
-                {{ $selectedRoleId === $role->id ? 'bg-slate-200' : 'hover:bg-slate-100' }}">
+                {{ $selectedRoleId === $role->id ? 'bg-slate-200' : 'hover:bg-slate-100' }}"
+            >
                 <div class="flex justify-between">
                     <span>{{ $role->label }}</span>
                     <span class="text-xs opacity-70">{{ $role->users_count }}</span>
@@ -168,10 +181,16 @@ new #[Layout('layouts::app')] class extends Component
 
             @php $isAdmin = $this->selectedRole->name === 'admin'; @endphp
 
-            <x-input label="Nome do papel" wire:model.defer="roleLabel" :disabled="$isAdmin"/>
+            <x-input
+                label="Nome do papel"
+                wire:model.defer="roleLabel"
+                :disabled="$isAdmin"
+            />
 
             @unless($isAdmin)
-                <x-button size="sm" wire:click="updateRole">Salvar papel</x-button>
+                <x-button size="sm" wire:click="updateRole">
+                    Salvar papel
+                </x-button>
             @endunless
 
             <hr class="my-6">
@@ -215,15 +234,16 @@ new #[Layout('layouts::app')] class extends Component
             @else
                 <form wire:submit.prevent="saveRolePermissions" class="space-y-6">
                     @foreach($this->permissionsByModule as $module => $permissions)
-                        <div>
+                        <div wire:key="module-{{ $module }}">
                             <h4 class="text-sm font-semibold mb-2">{{ $module }}</h4>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 @foreach($permissions as $perm)
-                                    <label class="flex items-center gap-2 text-sm">
+                                    <label class="flex items-center gap-2 text-sm"
+                                           wire:key="perm-{{ $perm->id }}">
                                         <input
                                             type="checkbox"
-                                            wire:model="selectedPermissions"
+                                            wire:model.defer="selectedPermissions"
                                             value="{{ $perm->id }}"
                                         >
                                         {{ $perm->label ?? $perm->name }}
@@ -233,18 +253,21 @@ new #[Layout('layouts::app')] class extends Component
                         </div>
                     @endforeach
 
-                    <x-button size="sm">Salvar permissões</x-button>
+                    <x-button size="sm" type="submit">
+                        Salvar permissões
+                    </x-button>
                 </form>
             @endif
 
         @else
-            <p class="text-sm text-slate-500">Selecione um papel.</p>
+            <p class="text-sm text-slate-500">
+                Selecione um papel.
+            </p>
         @endif
     </x-card>
 
 </div>
 
-{{-- MODAL DESACOPLADO --}}
-<livewire:pages::dashboard.user.modal-roles-permisisons />
+{{-- MODAL DESACOPLADO (NOME CORRIGIDO) --}}
 
 </x-content>
