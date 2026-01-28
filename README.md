@@ -1,10 +1,10 @@
 # 📊 Sistema de Dashboard
 
-Dashboard, escalavel, seguro e responsivo.
+Sistema administrativo focado em **segurança**, **controle de acesso** e **gestão de usuários**, com arquitetura moderna e reatividade em tempo real.
 
 ---
 
-## 🧱 Tecnologias Utilizadas
+## 🧱 Tecnologias
 
 - **Laravel 12+**
 - **Livewire 4**
@@ -17,118 +17,107 @@ Dashboard, escalavel, seguro e responsivo.
 
 ## 🔐 Autenticação & Segurança
 
-### 🔑 Login
+### Login
 
-- Autenticação via **e-mail e senha**
-- Limite de **até 3 tentativas consecutivas de login**
-- Bloqueio temporário após exceder o limite
-- Proteção contra **ataques de força bruta**
+- Autenticação por **e-mail e senha**
+- Limite de **3 tentativas consecutivas**
+- Bloqueio temporário automático após exceder o limite
 - Opção **Remember Me**
-  - Mantém o usuário autenticado com segurança
-  - Token persistente com expiração configurável
+  - Sessão persistente e segura
+  - Token com expiração controlada
 
 ---
 
-### 🔐 Verificação em Duas Etapas (2FA via E-mail)
+### Verificação em Duas Etapas (2FA – E-mail)
 
-Após o login inicial:
+Fluxo aplicado **após o login válido**:
 
-1. Geração automática de um **código de verificação único**
-2. Envio do código para o **e-mail do usuário**
+1. Geração de **código único de 6 dígitos**
+2. Envio automático para o e-mail do usuário
 3. Validação obrigatória para concluir o login
-4. O código:
-   - Possui tempo de expiração
-   - É de uso único
-   - É invalidado após a confirmação
 
-Esse fluxo garante uma **camada extra de segurança**, mesmo quando o usuário utiliza
-o recurso **Remember Me**.
+**Características do código:**
+- Tempo de expiração
+- Uso único
+- Invalidado após confirmação
+
+➡️ Garante segurança adicional mesmo com **Remember Me ativo**.
 
 ---
 
 ## 👥 Gestão de Usuários
 
-### Redefinição de e-mail por Link
+### Redefinição de Senha
 
-- Link enviado para o e-mail cadastrado
-- Token de redefinição:
+- Envio de link por e-mail
+- Token:
   - Uso único
-  - Tempo de expiração configurável
-- Validação da força da nova senha
+  - Expiração configurável
+- Validação de força da nova senha
 
 ---
 
-### 📜 Listagem de Usuários
+### Listagem e Controle de Usuários
 
-- Visualização de usuários cadastrados
-- **Histórico de acessos por usuário**
-- Identificação de dispositivos conectados
-- Possibilidade de **encerrar sessões em outros dispositivos**
-- Proteção contra encerramento da sessão atual
-
----
-
-## 👤 Perfil do Usuário
-
-![Perfil do Usuário](./page-profile.png)
+- Visualização completa dos usuários
+- Histórico de acessos por usuário:
+  - IP
+  - Navegador
+  - Plataforma
+- Controle de sessões:
+  - Encerramento remoto
+  - Proteção contra encerramento da sessão atual
 
 ---
 
-### 💪 Validação de Força de Senha
+## 🧩 Papéis & Permissões (RBAC)
 
-A senha é validada automaticamente com base em:
-
-- Comprimento mínimo
-- Letras maiúsculas e minúsculas
-- Números
-- Caracteres especiais
-
-Indicador visual de força:
-- Fraca
-- Média
-- Forte
+- Sistema baseado em **Papéis (Roles)** e **Permissões**
+- Permissões organizadas por **módulo**
+- Papéis do sistema (ex: **admin**) são protegidos
+- Alterações de papel refletem **imediatamente** na interface
+- Comunicação entre componentes via **eventos Livewire**
 
 ---
 
-## ⚙️ Regras de Segurança
+## 🛡️ Regras de Segurança
 
-- Senhas armazenadas com **hash seguro**
+- Senhas com **hash seguro**
 - Tokens protegidos contra reutilização
 - Sessões invalidadas em:
-  - Logout manual
-  - Encerramento remoto de sessão
+  - Logout
   - Alteração de senha
+  - Encerramento remoto
 - Proteção contra **CSRF**
-- Validação de dados no **backend e frontend**
-- Controle de sessão com verificação ativa no middleware
+- Validação no backend e frontend
+- Middleware de verificação ativa de sessão
 
 ---
 
-## 📦 Funcionalidades Principais
+## 📦 Funcionalidades
 
 | Funcionalidade                                      | Status |
 |---------------------------------------------------|--------|
-| Autenticação Segura com 2FA (E-mail)               | ✅ |
-| Proteção contra Força Bruta (limite de tentativas) | ✅ |
-| Controle de Sessões por Dispositivo                | ✅ |
-| Encerramento Remoto de Sessões                     | ✅ |
-| Detecção de Login em Novo Dispositivo              | ✅ |
-| Dashboard Responsivo e Reativo                     | ✅ |
-| Gerenciamento de Perfil do Usuário                 | ✅ |
-
+| Login com 2FA via E-mail                            | ✅ |
+| Proteção contra força bruta                        | ✅ |
+| Remember Me seguro                                 | ✅ |
+| Controle de sessões por dispositivo                | ✅ |
+| Encerramento remoto de sessões                     | ✅ |
+| Detecção de novo dispositivo                       | ✅ |
+| Gerenciamento de papéis e permissões               | ✅ |
+| Dashboard reativo e responsivo                     | ✅ |
 
 ---
 
 ## 🚀 Melhorias Futuras
 
-
-- Gestão de permissões e papéis (Roles & Permissions)
-- Notificações via SMS ou WhatsApp
-- Notificações Internas
-- Lista de Ips e Dispositivos permitidos
+- Notificações internas
+- Notificações via SMS / WhatsApp
+- Lista de IPs e dispositivos permitidos
+- Auditoria avançada de ações administrativas
 
 ---
 
 ## 📄 Licença
 
-Voçê pode baixar e usar quantas vezes quiser, sem limite e sem restrinção.
+Uso livre para estudo, projetos pessoais ou comerciais, sem restrições.
