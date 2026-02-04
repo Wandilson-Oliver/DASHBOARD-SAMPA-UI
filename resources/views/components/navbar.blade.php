@@ -1,5 +1,5 @@
 <nav
-    class="sticky top-0 z-40"
+    class="sticky top-0 z-40 bg-[#f6f7fc]"
     x-data="{ profileOpen: false }"
 >
     <div class="flex h-14 items-center justify-end px-5 mt-5">

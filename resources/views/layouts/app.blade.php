@@ -6,6 +6,8 @@
 
     <title>{{ $title ?? config('app.name') }}</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -35,10 +37,11 @@
 
     {{-- SIDEBAR --}}
     <x-sidebar :items="[
-        ['label' => 'Dashboard', 'icon' => 'bi-speedometer2', 'route' => 'dashboard.index'],
-        ['label' => 'Financeiro', 'icon' => 'bi-cash-coin', 'url' => '/financeiro'],
-        ['label' => 'Relatórios', 'icon' => 'bi-bar-chart-line', 'url' => '/relatorios'],
         ['label' => 'Usuários', 'icon' => 'bi-people', 'route' => 'dashboard.users', 'permission' => 'users.view'],
+
+        // Recursos do site
+        ['label' => 'Pessoas', 'icon' => 'bi-person-lines-fill', 'route' => 'dashboard.persons', 'permission' => 'persons.view'],
+        ['label' => 'Produtos', 'icon' => 'bi-box-seam', 'route' => 'dashboard.products', 'permission' => 'products.view'],
     ]"/>
 
 

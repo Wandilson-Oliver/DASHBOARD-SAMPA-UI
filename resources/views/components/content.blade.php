@@ -17,7 +17,7 @@
 >
     {{-- HEADER DA PÁGINA --}}
     @if ($title || $actions)
-        <div class="mt-8 mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div class="mt-5 mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 @if ($title)
                     <h1 class="text-2xl font-semibold text-slate-800">
