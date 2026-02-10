@@ -66,5 +66,11 @@ Route::prefix('dashboard')
         Route::livewire('/roles', 'pages::dashboard.user.roles-permissions')
             ->middleware('permission:roles.manage')
             ->name('dashboard.roles');
+
+
+        Route::livewire('/chat-faqs', 'pages::dashboard.chat.faqs')
+            ->middleware('permission:chat-faqs.manage')
+            ->name('dashboard.chat-faqs');
+
     });
     

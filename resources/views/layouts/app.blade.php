@@ -43,9 +43,6 @@
         ['label' => 'Usuários', 'icon' => 'bi-people', 'route' => 'dashboard.users', 'permission' => 'users.view'],
 
         // Recursos do site
-        ['label' => 'Pessoas', 'icon' => 'bi-person-lines-fill', 'route' => 'dashboard.persons', 'permission' => 'persons.view'],
-        ['label' => 'Produtos', 'icon' => 'bi-box-seam', 'route' => 'dashboard.products', 'permission' => 'products.view'],
-        ['label' => 'Mapa de Produtos', 'icon' => 'bi-map', 'route' => 'dashboard.map', 'permission' => 'products.map'],
         ['label' => 'Chat FAQs', 'icon' => 'bi-question-circle', 'route' => 'dashboard.chat-faqs', 'permission' => 'chat-faqs.manage'],
     ]"/>
 
