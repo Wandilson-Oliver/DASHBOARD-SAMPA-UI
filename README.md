@@ -15,6 +15,14 @@ Sistema administrativo focado em **segurança**, **controle de acesso** e **gest
 
 <br>
 
+## INSTALACAO
+- **GIT CLONE**
+- **COMPOSER INSTALL**
+- **NPM INSTALL**
+- **CRIAR .ENV**
+- **CRIAR BANCO**
+- **CADASTRAR CHAVE OPENAI**
+
 ## COMPONENTES
 - Chat
 - Adress
