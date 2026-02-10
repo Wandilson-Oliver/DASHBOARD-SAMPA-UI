@@ -97,6 +97,14 @@ class RolePermissionSeeder extends Seeder
                 'module'    => 'Permissões',
                 'is_system' => true,
             ],
+
+            // CHAT FAQS
+            [
+                'name'      => 'chat-faqs.manage',
+                'label'     => 'Gerenciar FAQs do chat',
+                'module'    => 'Chat',
+                'is_system' => true,
+            ],
         ];
 
         foreach ($permissions as $data) {

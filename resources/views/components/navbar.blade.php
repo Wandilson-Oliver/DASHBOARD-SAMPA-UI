@@ -1,5 +1,11 @@
+@props([
+    'compactProfile' => false,
+])
+
 <nav
-    class="sticky top-0 z-40 bg-[#f6f7fc]"
+    {{ $attributes->merge([
+        'class' => 'sticky top-0 z-40'
+    ]) }}
     x-data="{ profileOpen: false }"
 >
     <div class="flex h-14 items-center justify-end px-5 mt-5">
@@ -23,38 +29,8 @@
         {{-- DIREITA: AÇÕES --}}
         <div class="flex justify-end items-center gap-1">
 
-            {{-- CONFIGURAÇÕES --}}
-            <a
-                href=""
-                class="flex items-center justify-center
-                       w-10 h-10 rounded-lg
-                       text-slate-600
-                       hover:bg-slate-100 hover:text-teal-600
-                       transition"
-                aria-label="Configurações"
-            >
-                <i class="bi bi-gear text-xl"></i>
-            </a>
-
-            {{-- NOTIFICAÇÕES --}}
-            <button
-                type="button"
-                class="relative flex items-center justify-center
-                       w-10 h-10 rounded-lg
-                       text-slate-600
-                       hover:bg-slate-100 hover:text-teal-600
-                       transition"
-                aria-label="Notificações"
-            >
-                <i class="bi bi-bell text-xl"></i>
-
-                {{-- Badge --}}
-                <span
-                    class="absolute top-1.5 right-1.5
-                           w-2.5 h-2.5 rounded-full
-                           bg-red-500"
-                ></span>
-            </button>
+            {{-- ACTIONS (slot) --}}
+            {{ $actions ?? '' }}
 
             {{-- PERFIL --}}
             @php
@@ -93,17 +69,19 @@
                         </div>
                     @endif
 
-                    {{-- Nome + Email (desktop) --}}
-                    <div class="hidden sm:flex flex-col items-start leading-tight">
-                        <span class="text-sm font-semibold text-slate-800 truncate max-w-[160px]">
-                            {{ $user->name }}
-                        </span>
-                        <span class="text-xs text-slate-500 truncate max-w-[160px]">
-                            {{ $user->email }}
-                        </span>
-                    </div>
+                    {{-- Nome + Email (SOMENTE SE NÃO FOR COMPACTO) --}}
+                    @unless($compactProfile)
+                        <div class="hidden sm:flex flex-col items-start leading-tight">
+                            <span class="text-sm font-semibold text-slate-800 truncate max-w-[160px]">
+                                {{ $user->name }}
+                            </span>
+                            <span class="text-xs text-slate-500 truncate max-w-[160px]">
+                                {{ $user->email }}
+                            </span>
+                        </div>
 
-                    <i class="bi bi-chevron-down text-slate-400 text-xs hidden sm:block"></i>
+                        <i class="bi bi-chevron-down text-slate-400 text-xs hidden sm:block"></i>
+                    @endunless
                 </button>
 
                 {{-- DROPDOWN PERFIL --}}
@@ -114,6 +92,7 @@
                            bg-white rounded-xl shadow-lg
                            border border-slate-100 overflow-hidden"
                 >
+                    {{-- HEADER (SÓ MOSTRA INFO AQUI) --}}
                     <div class="px-4 py-3 border-b border-slate-100">
                         <div class="text-sm font-semibold text-slate-800 truncate">
                             {{ $user->name }}

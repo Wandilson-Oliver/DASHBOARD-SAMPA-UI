@@ -10,6 +10,9 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 </head>
 
 <body
@@ -42,6 +45,8 @@
         // Recursos do site
         ['label' => 'Pessoas', 'icon' => 'bi-person-lines-fill', 'route' => 'dashboard.persons', 'permission' => 'persons.view'],
         ['label' => 'Produtos', 'icon' => 'bi-box-seam', 'route' => 'dashboard.products', 'permission' => 'products.view'],
+        ['label' => 'Mapa de Produtos', 'icon' => 'bi-map', 'route' => 'dashboard.map', 'permission' => 'products.map'],
+        ['label' => 'Chat FAQs', 'icon' => 'bi-question-circle', 'route' => 'dashboard.chat-faqs', 'permission' => 'chat-faqs.manage'],
     ]"/>
 
 
@@ -59,8 +64,11 @@
         
         <x-toast/>
         {{ $slot }}
+
+        <livewire:chat.index />
     </main>
 
     @livewireScripts
+    
 </body>
 </html>
