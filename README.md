@@ -15,48 +15,36 @@ Sistema administrativo focado em **segurança**, **controle de acesso** e **gest
 
 <br>
 
-## FUNCIONALIDADES AUTENTICAÇÃO
-* Recursos que a autenticação usa na hora de fazer login ou redefinir senha.
+## COMPONENTES
+- Chat
+- Adress
+- Badge
+- Button
+- Card
+- Content
+- Currency-br
+- Divider
+- Drawer
+- Header
+- Input
+- Modal
+- Navbar
+- Password
+- Phone
+- Select
+- Select-Search
+- Toast
 
-| Funcionalidade                                      | Status |
-|---------------------------------------------------|--------|
-| Login com 2FA via E-mail                           | ✅ |
-| Proteção contra força bruta                        | ✅ |
-| Remember Me seguro                                 | ✅ |
-| Redefinição de Senha por E-mail                    | ✅ |
-
-<br>
-
-## FUNCIONALIDADES ROLES E PERMISSIONS
-* O Sistema usa Roles Ex: Financeiro com permissões vinculadas a ela Ex: User.edit
-
-| Funcionalidade                                      | Status |
-|---------------------------------------------------|--------|
-| Cadastro de Roles "Papéis"                            | ✅ |
-| Viculacao roles e Permissions                         | ✅ |
-| Vincular e Desvincular Roles                          | ✅ |
-
-<br>
-
-## FUNCIONALIDADES SESSÕES
-* Aqui você consegue saber quando e onde o usuário acessou o sistema e em quais dispositivos esta conectado "Ativo", consegue também desconecta-los.
-
-| Funcionalidade                                      | Status |
-|---------------------------------------------------|--------|
-| Histórico de Acessos                                | ✅ |
-| Botao para deslogar outro dispositivo               | ✅ |
+## LOGIN
+* Autenticacao usando verificacao por codigo enviado por e-mail
 
 <br>
 
-## FUNCIONALIDADES PAGE USERS
-* Gestão de Usuários, e permissões do mesmo.
-
-| Funcionalidade                                      | Status |
-|---------------------------------------------------|--------|
-| Read - Create - Update - Delete - Restore           | ✅ |
-| Gerar nova senha e encaminhar por e-mail            | ✅ |
+## PERMISSOES
+* RESTRINÇÃO POR PAPEIS E PERMISSOES
 
 <br>
+
 
 ## 📄 Licença
 
