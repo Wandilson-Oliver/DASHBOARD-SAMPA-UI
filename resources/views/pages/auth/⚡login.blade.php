@@ -196,7 +196,6 @@ new #[Layout('layouts::auth')] class extends Component
                             type="checkbox"
                             wire:model="remember"
                             class="rounded border-slate-300 text-teal-600 focus:ring-teal-500"
-                            :disabled="$blocked"
                         >
                         Manter conectado
                     </label>

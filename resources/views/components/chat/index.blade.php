@@ -110,7 +110,7 @@ new class extends Component
         },
 
         format(text) {
-            return text.replace(/\n/g, '<br>')
+            return (text ?? '').replace(/\\n/g, '<br>')
         }
     }"
     class="fixed bottom-6 right-6 z-50 font-sans"
@@ -163,25 +163,29 @@ new class extends Component
                     ></div>
 
                     {{-- CARD CONTATO --}}
-                    <div class="">
+                    <div>
                         <div
                             x-show="m.type === 'contact'"
                             class="bg-white shadow-md rounded-xl p-3 w-64"
                         >
                             <div class="flex items-center gap-3">
-                                <img :src="m.contact.photo" class="w-12 h-12 rounded-full">
+                                <img
+                                    src="/images/avatar-02.webp"
+                                    class="w-14 h-14 rounded-full"
+                                >
                                 <div>
-                                    <div class="font-semibold text-sm" x-text="m.contact.name"></div>
-                                    <div class="text-xs text-slate-500" x-text="m.contact.role"></div>
+                                    <div class="font-semibold text-sm" x-text="m.contact?.name"></div>
+                                    <div class="text-xs text-slate-500" x-text="m.contact?.role"></div>
                                 </div>
                             </div>
 
                             <a
-                                :href="`https://wa.me/${m.contact.phone}?text=${encodeURIComponent(m.contact.message)}`"
+                                x-show="m.contact?.phone"
+                                :href="`https://wa.me/${m.contact?.phone}?text=${encodeURIComponent(m.contact?.message ?? '')}`"
                                 target="_blank"
                                 class="block mt-3 text-center py-2 rounded-lg
-                                    bg-teal-500 text-white text-sm
-                                    hover:bg-teal-600 transition"
+                                       bg-teal-500 text-white text-sm
+                                       hover:bg-teal-600 transition"
                             >
                                 Falar no WhatsApp
                             </a>
@@ -202,13 +206,14 @@ new class extends Component
                         {{ $faq->question }}
                     </button>
                 @endforeach
+
                 <button
-                    @click="sendPreset('{{ "Falar com o Corretor" }}')"
+                    @click="sendPreset('Falar com o Corretor')"
                     class="px-3 py-2 rounded-full text-xs
-                            bg-white shadow-sm hover:bg-primary
-                            hover:text-white transition cursor-pointer"
+                           bg-white shadow-sm hover:bg-primary
+                           hover:text-white transition cursor-pointer"
                 >
-                    {{ "Falar com o Corretor" }}
+                    Falar com o Corretor
                 </button>
             </div>
 
