@@ -50,11 +50,16 @@
 
   .btn-warning {
     background-color: var(--warning);
-    color: #111827;
+    color: white;
   }
 
   .btn-error {
     background-color: var(--error);
+    color: white;
+  }
+
+  .btn-accent {
+    background-color: var(--accent);
     color: white;
   }
 
@@ -104,6 +109,11 @@
     border-color: var(--error);
   }
 
+  .btn-outline-accent {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
   .btn-outline:hover {
     background-color: color-mix(in oklab, currentColor, transparent 90%);
   }
@@ -111,4 +121,17 @@
   .btn-outline:focus-visible {
     box-shadow: 0 0 0 3px color-mix(in oklab, currentColor, transparent 70%);
   }
+
+  /* =================================================
+  * Solid Hover States
+  * ================================================= */
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .btn-success:hover,
+  .btn-warning:hover,
+  .btn-error:hover,
+  .btn-accent:hover {
+    filter: brightness(0.90);
+  }
+
 }

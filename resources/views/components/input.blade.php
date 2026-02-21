@@ -7,7 +7,7 @@
     'description' => null,
 
     // Variations
-    'variant' => 'primary', // primary | secondary | success | warning | error
+    'variant' => 'primary', // primary | secondary | success | warning | error | info | accent
     'size' => 'md',         // sm | md | lg | xl
 
     // States
@@ -44,7 +44,7 @@
     ])));
 @endphp
 
-<div class="space-y-1 mb-2">
+<div class="space-y-1.5 mb-3">
 
     {{-- LABEL --}}
     @if($label)

@@ -11,7 +11,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
+
 
 </head>
 
@@ -39,18 +44,21 @@
     ></div>
 
     {{-- SIDEBAR --}}
-    <x-sidebar :logo="[
-        'label' => 'Dashboard',
-        'icon' => 'D',
+    <x-sidebar 
+    :logo="[
+        'label' => 'Sampa UI',
+        'icon' => 'S',
         'route' => 'dashboard.index'
     ]"
-    :items="[
-        ['label' => 'Documentação', 'icon' => 'bi-book', 'route' => 'documentation.index'],
-        ['label' => 'Usuários', 'icon' => 'bi-people', 'route' => 'dashboard.users', 'permission' => 'users.view'],
 
-        // Recursos do site
-        ['label' => 'Chat FAQs', 'icon' => 'bi-question-circle', 'route' => 'dashboard.chat-faqs', 'permission' => 'chat-faqs.manage'],
-    ]"/>
+    :items="[
+        ['label' => 'Voltar ao Dashboard', 'icon' => 'bi-arrow-left', 'route' => 'dashboard.index'],
+        ['label' => 'Introdução', 'route' => 'documentation.index'],
+        ['label' => 'Botões', 'route' => 'documentation.buttons'],
+        ['label' => 'Inputs', 'route' => 'documentation.input'],
+    ]"
+/>
+
 
 
     {{-- MAIN --}}
@@ -63,7 +71,7 @@
         class="p-4"
     >  
         {{-- NAVBAR --}}
-        <x-navbar/>
+        <x-navbar class="bg-[#f6f7fc]"/>
         
         <x-toast/>
         {{ $slot }}
@@ -72,6 +80,9 @@
     </main>
 
     @livewireScripts
+
+        <script>hljs.highlightAll();</script>
+
     
 </body>
 </html>

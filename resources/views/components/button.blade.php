@@ -1,5 +1,5 @@
 @props([
-    'variant' => 'primary', // primary | secondary | success | warning | error | ghost
+    'variant' => 'primary', // primary | secondary | success | warning | error | accent
     'size' => 'md',         // sm | md | lg | xl
     'type' => 'button',
     'outline' => false,

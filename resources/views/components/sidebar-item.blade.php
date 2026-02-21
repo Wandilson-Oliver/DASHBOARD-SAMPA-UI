@@ -16,7 +16,7 @@
                 $active
                     ? 'bg-teal-500
                        text-white shadow-xl'
-                    : 'text-slate-500 hover:bg-white hover:text-teal-700'
+                    : 'hover:bg-white hover:text-teal-700'
             )
     ]) }}
 >
@@ -27,7 +27,7 @@
     <span
         x-show="sidebarOpen"
         x-transition
-        class="text-sm font-medium whitespace-nowrap"
+        class="text-sm whitespace-nowrap"
     >
         {{ $slot }}
     </span>

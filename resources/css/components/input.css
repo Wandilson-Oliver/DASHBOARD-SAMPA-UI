@@ -87,4 +87,15 @@
     box-shadow: 0 0 0 3px
       color-mix(in oklab, var(--error), transparent 70%);
   }
+
+  .input-accent {
+    border-color: color-mix(in oklab, var(--accent), transparent 60%);
+  }
+
+  .input-accent:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px
+      color-mix(in oklab, var(--accent), transparent 70%);
+  }
+
 }

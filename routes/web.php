@@ -74,3 +74,5 @@ Route::prefix('dashboard')
 
     });
     
+
+include __DIR__.'/doc.php';
